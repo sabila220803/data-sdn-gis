@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SdnController;
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [SdnController::class, 'index']);

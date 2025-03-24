@@ -10,12 +10,22 @@ use Illuminate\Support\Str;
 class SdnController extends Controller
 {
     // Menampilkan data SDN dengan pagination dan urutan terbaru
-    public function index()
+    public function index(Request $request)
     {
-        $sdn = Sdn::orderBy('created_at', 'desc')->paginate(10); // 10 item per halaman
-        return view('sdn.index', [ // Sesuaikan nama view
-            'title' => 'Data SDN',
+        $query = Sdn::query();
+
+        // Pencarian berdasarkan nama
+        if ($request->has('search')) {
+            $query->where('nama', 'like', '%' . $request->search . '%');
+        }
+
+        // Pagination dengan 10 item per halaman
+        $sdn = $query->paginate(10)->withQueryString();
+
+        return view('index', [
+            'title' => 'Daftar Sekolah Dasar Negeri',
             'sdn' => $sdn,
+            'search' => $request->search
         ]);
     }
 

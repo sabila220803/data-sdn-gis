@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('latitude');
             $table->string('longitude');
             $table->string('image')->nullable();
-            $table->rememberToken();
             $table->timestamps();
         });
     }

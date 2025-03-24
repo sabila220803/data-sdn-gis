@@ -20,6 +20,7 @@
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="images/Lambang_Kota_Semarang.png">
     <style type="text/tailwindcss">
         @layer utilities {
             .grid-cols-custom {
@@ -116,8 +117,6 @@
                                     </div>
                                 </div>
                                 <div class="flex flex-col items-end pr-16">
-                                    <div class="text-gray-600 text-sm">{{ $item->latitude }}, {{ $item->longitude }}
-                                    </div>
                                     <a href="https://www.google.com/maps?q={{ $item->latitude }},{{ $item->longitude }}"
                                         target="_blank"
                                         class="inline-flex items-center justify-center px-4 py-1.5 bg-blue-500 text-white rounded-full text-sm hover:bg-blue-600 transition-colors mt-2">

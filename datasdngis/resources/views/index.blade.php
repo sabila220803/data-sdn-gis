@@ -71,17 +71,18 @@
     <main class="flex-1 bg-white p-6">
         <div class="max-w-7xl mx-auto bg-tableBlue rounded-lg shadow-sm">
             <div class="flex justify-end p-4">
-                <div class="relative flex items-center">
-                    <input type="search" id="searchInput" placeholder="Cari Data..."
+                <form action="{{ route('sdn.index') }}" method="GET" class="relative flex items-center">
+                    <input type="search" name="search" id="searchInput" placeholder="Cari Data..."
+                        value="{{ request('search') }}"
                         class="pl-4 pr-10 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <button class="absolute right-2 p-2 bg-blue-500 rounded-lg text-white">
+                    <button type="submit" class="absolute right-2 p-2 bg-blue-500 rounded-lg text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </button>
-                </div>
+                </form>
             </div>
 
             <!-- Table -->
@@ -97,7 +98,7 @@
                 <div class="divide-y divide-gray-100">
                     @if ($sdn->isEmpty())
                         <div class="p-4 bg-white">
-                            <p class="text-gray-600">Tidak ada data SDN yang ditemukan.</p>
+                            <p class="text-gray-600 text-center">Tidak ada data SDN yang ditemukan.</p>
                         </div>
                     @else
                         @foreach ($sdn as $item)
@@ -198,18 +199,6 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        document.getElementById('searchInput').addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const cards = document.querySelectorAll('.data-card');
-
-            cards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                card.style.display = text.includes(searchTerm) ? 'grid' : 'none';
-            });
-        });
-    </script>
 </body>
 
 </html>

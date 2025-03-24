@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('slug');
             $table->string('nama')->unique();
+            $table->text('alamat');
             $table->string('latitude');
             $table->string('longitude');
             $table->string('image')->nullable();

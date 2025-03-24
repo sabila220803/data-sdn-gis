@@ -107,13 +107,10 @@
                                 <div class="text-sm pl-2">
                                     {{ ($sdn->currentPage() - 1) * $sdn->perPage() + $loop->iteration }}</div>
                                 <div>
-                                    <a href="#"
+                                    <a href="{{ route('sdn.show', $item->slug) }}"
                                         class="text-blue-500 hover:underline font-medium">{{ $item->nama }}</a>
                                     <div class="text-gray-600 mt-1 text-sm leading-relaxed">
-                                        Jl. Cumi-Cumi Raya No.2,<br>
-                                        Bandarharjo, Kec. Semarang Utara,<br>
-                                        Kota Semarang, Jawa Tengah<br>
-                                        50175
+                                        {!! nl2br(e($item->alamat)) !!}
                                     </div>
                                 </div>
                                 <div class="flex flex-col items-end pr-16">
@@ -126,8 +123,13 @@
                                 </div>
                                 <div class="flex justify-center">
                                     <div class="border border-gray-200 rounded-lg p-1">
-                                        <img src="images/mudik.jpg" alt="SDN Bandarharjo01"
-                                            class="w-[120px] h-[80px] rounded-lg object-cover">
+                                        @if ($item->image)
+                                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->nama }}"
+                                                class="w-[120px] h-[80px] rounded-lg object-cover">
+                                        @else
+                                            <img src="{{ asset('images/default-school.jpg') }}" alt="Default Image"
+                                                class="w-[120px] h-[80px] rounded-lg object-cover">
+                                        @endif
                                     </div>
                                 </div>
                             </div>

@@ -34,6 +34,7 @@ class SdnController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255', // Sesuaikan dengan field yang ada di model Sdn
+            'alamat' => 'required|string',
             'latitude' => 'required|string',
             'longitude' => 'required|string',
             'image' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048', // Validasi untuk gambar

@@ -10,7 +10,7 @@ class AuthController extends Controller
 {
     public function index()
     {
-        return view('login');
+        return view('auth.login');
     }
     public function login(Request $request)
     {
@@ -21,7 +21,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
  
-            return redirect()->route('berita');
+            return redirect()->route('sdn.index');
         }
  
         return back()->withErrors([

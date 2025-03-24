@@ -18,6 +18,7 @@ class Sdn extends Model
     protected $fillable = [
         'slug',
         'nama',
+        'alamat',
         'latitude',
         'longitude',
         'image',

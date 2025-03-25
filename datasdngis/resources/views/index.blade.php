@@ -144,7 +144,12 @@
                                         class="inline-flex items-center justify-center px-4 py-1.5 bg-blue-500 text-white rounded-full text-sm hover:bg-blue-600 transition-colors mt-2">
                                         <i class="fas fa-map-marker-alt mr-2"></i> Lihat Peta
                                     </a>
-                                    <div class="text-gray-600 text-sm mt-2">jarak: 6 km</div>
+                                    <div class="text-gray-600 text-sm mt-2">
+                                        <span class="distance" data-lat="{{ $item->latitude }}"
+                                            data-lng="{{ $item->longitude }}">
+                                            Menghitung jarak...
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="flex justify-center">
                                     <div class="border border-gray-200 rounded-lg p-1">
@@ -226,6 +231,59 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Fungsi untuk menghitung jarak menggunakan rumus Haversine
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Radius bumi dalam kilometer
+            const dLat = toRad(lat2 - lat1);
+            const dLon = toRad(lon2 - lon1);
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const distance = R * c;
+            return distance.toFixed(1);
+        }
+
+        function toRad(degrees) {
+            return degrees * (Math.PI / 180);
+        }
+
+        // Fungsi untuk mendapatkan lokasi user
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const userLat = position.coords.latitude;
+                        const userLng = position.coords.longitude;
+
+                        // Hitung jarak untuk setiap SDN
+                        document.querySelectorAll('.distance').forEach(element => {
+                            const sdnLat = parseFloat(element.dataset.lat);
+                            const sdnLng = parseFloat(element.dataset.lng);
+                            const distance = calculateDistance(userLat, userLng, sdnLat, sdnLng);
+                            element.textContent = `Jarak: ${distance} km`;
+                        });
+                    },
+                    function(error) {
+                        console.error("Error getting location:", error);
+                        document.querySelectorAll('.distance').forEach(element => {
+                            element.textContent = 'Jarak tidak tersedia';
+                        });
+                    }
+                );
+            } else {
+                document.querySelectorAll('.distance').forEach(element => {
+                    element.textContent = 'Geolokasi tidak didukung';
+                });
+            }
+        }
+
+        // Panggil fungsi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', getUserLocation);
+    </script>
 </body>
 
 </html>

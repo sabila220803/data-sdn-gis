@@ -138,14 +138,11 @@ class SdnController extends Controller
     public function destroy($slug)
     {
         try {
-            $sdn = Sdn::where('slug', $slug)->firstOrFail();
+            $sdn = Sdn::where('slug', $slug)->firstOrFail(); // Gunakan model Sdn
 
             // Hapus gambar jika ada
-            if ($sdn->image) {
-                // Hapus file dari storage
-                if (Storage::disk('public')->exists($sdn->image)) {
-                    Storage::disk('public')->delete($sdn->image);
-                }
+            if ($sdn->image && Storage::disk('public')->exists($sdn->image)) {
+                Storage::disk('public')->delete($sdn->image);
             }
 
             // Hapus data

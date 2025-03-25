@@ -199,7 +199,7 @@
 
         document.getElementById('confirmDelete').addEventListener('click', function() {
             if (deleteSlug) {
-                fetch(`/sdn/${deleteSlug}`, {
+                fetch(`/admin/sdn/${deleteSlug}`, {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',

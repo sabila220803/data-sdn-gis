@@ -25,3 +25,4 @@ Route::middleware(['auth'])->group(function () {
 
 // Route publik
 Route::get('/', [SdnController::class, 'index'])->name('sdn.index');
+Route::get('/sdn/{slug}', [SdnController::class, 'show'])->name('sdn.show');

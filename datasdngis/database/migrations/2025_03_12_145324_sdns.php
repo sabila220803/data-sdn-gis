@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('sdns', function (Blueprint $table) {
             $table->id();
-            $table->string('slug');
-            $table->string('nama')->unique();
+            $table->string('slug')->unique();
+            $table->string('nama');
             $table->text('alamat');
             $table->string('latitude');
             $table->string('longitude');

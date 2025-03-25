@@ -20,23 +20,21 @@ class AuthController extends Controller
         ]);
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
- 
-            return redirect()->route('sdn.index');
+
+            return redirect()->route('admin.dashboard');
         }
- 
-        return back()->withErrors([
-            'username' => 'Username atau password salah',
-        ])->onlyInput('username');
+
+        return back()->with('error', 'Username atau password salah!');
     }
 
     public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
-    
+
         $request->session()->invalidate();
-    
+
         $request->session()->regenerateToken();
-    
-        return redirect()->route('login');
+
+        return redirect()->route('sdn.index');
     }
 }

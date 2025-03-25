@@ -39,15 +39,40 @@
 
 <body class="min-h-screen flex flex-col bg-white">
     <!-- Header -->
-    <header class="bg-primary text-white p-4 flex items-center justify-between">
-        <button class="p-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </button>
-        <h1 class="text-xl font-medium flex-1 text-center">Beranda</h1>
-        <div class="w-6"></div>
+    <header class="bg-primary text-white p-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <button class="p-2 hover:bg-blue-600 rounded-lg transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <h1 class="text-xl font-medium">Beranda</h1>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                @auth
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="flex items-center space-x-2 hover:bg-blue-600 px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="{{ route('logout') }}"
+                        class="flex items-center space-x-2 bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                @else
+                    <a href="{{ route('login.page') }}"
+                        class="flex items-center space-x-2 hover:bg-blue-600 px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                @endauth
+            </div>
+        </div>
     </header>
 
     <!-- Hero Section -->
@@ -124,7 +149,8 @@
                                 <div class="flex justify-center">
                                     <div class="border border-gray-200 rounded-lg p-1">
                                         @if ($item->image)
-                                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->nama }}"
+                                            <img src="{{ asset('storage/' . $item->image) }}"
+                                                alt="{{ $item->nama }}"
                                                 class="w-[120px] h-[80px] rounded-lg object-cover">
                                         @else
                                             <img src="{{ asset('images/default-school.jpg') }}" alt="Default Image"

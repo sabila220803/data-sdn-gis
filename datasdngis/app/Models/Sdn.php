@@ -10,10 +10,12 @@ class Sdn extends Model
 {
     use HasFactory, Notifiable;
 
+    protected $table = 'sdns';
+
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array<string>
      */
     protected $fillable = [
         'slug',

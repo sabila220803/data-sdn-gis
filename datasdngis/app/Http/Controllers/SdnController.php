@@ -33,11 +33,11 @@ class SdnController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255', // Sesuaikan dengan field yang ada di model Sdn
+            'nama' => 'required|string|max:255',
             'alamat' => 'required|string',
             'latitude' => 'required|string',
             'longitude' => 'required|string',
-            'image' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048', // Validasi untuk gambar
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         try {
@@ -55,35 +55,25 @@ class SdnController extends Controller
             $imagePath = null;
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
-                $hashedName = $image->hashName(); // Generate nama file yang di-hash
-                $imagePath = $image->storeAs('images/sdn', $hashedName, 'public'); // Sesuaikan folder
+                $hashedName = $image->hashName();
+                $imagePath = $image->storeAs('images/sdn', $hashedName, 'public');
             }
 
             // Simpan data ke database
-            $sdn = new Sdn(); // Gunakan model Sdn
-            $sdn->slug = $slug; // Gunakan slug yang di-generate
-            $sdn->nama = $request->nama; // Sesuaikan dengan field yang ada di model Sdn
-            $sdn->latitude = $request->latitude;
-            $sdn->longitude = $request->longitude;
-            $sdn->image = $imagePath; // Simpan path gambar
-            $sdn->save();
+            $sdn = Sdn::create([
+                'slug' => $slug,
+                'nama' => $request->nama,
+                'alamat' => $request->alamat,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'image' => $imagePath
+            ]);
 
             // Redirect dengan pesan sukses
-            return redirect()->route('sdn.index')->with('success', 'Data SDN berhasil ditambahkan.');
+            return redirect()->route('admin.dashboard')->with('success', 'Data SDN berhasil ditambahkan.');
         } catch (\Exception $e) {
             // Redirect dengan pesan error jika terjadi kesalahan
-            return redirect()->back()->with('error', 'Gagal menambahkan data SDN. Silakan coba lagi. Error: ' . $e->getMessage());
-        }
-    }
-
-    // Menampilkan detail data SDN berdasarkan slug
-    public function show($slug)
-    {
-        try {
-            $sdn = Sdn::where('slug', $slug)->firstOrFail(); // Gunakan model Sdn
-            return view('sdn.show', compact('sdn')); // Sesuaikan nama view
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal mengambil data SDN. Silakan coba lagi. Error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal menambahkan data SDN. Silakan coba lagi. Error: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -137,7 +127,7 @@ class SdnController extends Controller
             $sdn->save();
 
             // Redirect dengan pesan sukses
-            return redirect()->route('sdn.index')->with('success', 'Data SDN berhasil diubah.');
+            return redirect()->route('admin.dashboard')->with('success', 'Data SDN berhasil diubah.');
         } catch (\Exception $e) {
             // Redirect dengan pesan error jika terjadi kesalahan
             return redirect()->back()->with('error', 'Gagal mengubah data SDN. Silakan coba lagi. Error: ' . $e->getMessage());
@@ -164,5 +154,36 @@ class SdnController extends Controller
             // Tangkap error dan kirim respons JSON
             return response()->json(['error' => 'Gagal menghapus data SDN. Silakan coba lagi.'], 500);
         }
+    }
+
+    public function dashboard(Request $request)
+    {
+        $query = Sdn::query();
+
+        // Pencarian berdasarkan nama
+        if ($request->has('search')) {
+            $query->where('nama', 'like', '%' . $request->search . '%');
+        }
+
+        // Pengurutan berdasarkan waktu terbaru
+        $query->latest();
+
+        // Pagination dengan 10 item per halaman
+        $sdn = $query->paginate(10)->withQueryString();
+
+        return view('admin.dashboard', [
+            'sdn' => $sdn,
+        ]);
+    }
+
+    public function create()
+    {
+        return view('admin.sdn-form');
+    }
+
+    public function edit($slug)
+    {
+        $sdn = Sdn::where('slug', $slug)->firstOrFail();
+        return view('admin.sdn-form', compact('sdn'));
     }
 }

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>login</title>
-    <link rel="icon" href="images/Lambang_Kota_Semarang.png">
+    <link rel="icon" href="{{ asset('images/Lambang_Kota_Semarang.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')

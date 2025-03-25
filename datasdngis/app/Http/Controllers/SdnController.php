@@ -56,7 +56,7 @@ class SdnController extends Controller
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $hashedName = $image->hashName();
-                $imagePath = $image->storeAs('images/sdn', $hashedName, 'public');
+                $imagePath = $image->storeAs('images/', $hashedName, 'public');
             }
 
             // Simpan data ke database
@@ -119,7 +119,7 @@ class SdnController extends Controller
                 }
                 // Simpan gambar baru
                 $image = $request->file('image');
-                $imagePath = $image->storeAs('images/sdn', $image->hashName(), 'public');
+                $imagePath = $image->storeAs('images/', $image->hashName(), 'public');
                 $sdn->image = $imagePath;
             }
 
@@ -138,7 +138,7 @@ class SdnController extends Controller
     public function destroy($slug)
     {
         try {
-            $sdn = Sdn::where('slug', $slug)->firstOrFail(); // Gunakan model Sdn
+            $sdn = Sdn::where('slug', $slug)->firstOrFail();
 
             // Hapus gambar jika ada
             if ($sdn->image && Storage::disk('public')->exists($sdn->image)) {

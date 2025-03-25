@@ -7,7 +7,7 @@
     <title>Dashboard Admin - SDN Semarang</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="images/Lambang_Kota_Semarang.png">
+    <link rel="icon" href="{{ asset('images/Lambang_Kota_Semarang.png') }}">
     <style type="text/tailwindcss">
         @layer utilities {
             .grid-cols-custom {
@@ -76,7 +76,7 @@
 
             <!-- Table -->
             <div class="bg-white rounded-lg shadow overflow-hidden">
-                <div class="grid grid-cols-custom gap-4 p-4 bg-gray-50 border-b font-semibold">
+                <div class="grid grid-cols-custom gap-4 p-4 bg-blue-50 border-b font-semibold">
                     <div>NO</div>
                     <div>NAMA SEKOLAH</div>
                     <div>ALAMAT</div>
